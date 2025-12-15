@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Snake V1 — Neon Arcade</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="theme-neon">
+  <div class="app">
+    <header class="topbar">
+      <div class="title">
+        <h1>NEON SNAKE <span class="sub">V1</span></h1>
+        <div class="tag">Server-authoritative • Premium UI</div>
+      </div>
+
+      <div class="actions">
+        <button id="themeToggle" class="icon-btn" title="Toggle theme">Theme</button>
+        <button id="openLeaderboard" class="icon-btn" title="Leaderboard">Leaderboard</button>
+        <div id="connWrap" class="conn-wrap">
+          <span id="connDot" class="dot dot-disconnected"></span>
+          <small id="connLabel">disconnected</small>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="game-panel">
+        <div class="canvas-stage">
+          <canvas id="gameCanvas" aria-label="Snake game canvas"></canvas>
+          <canvas id="particles" class="particles"></canvas>
+
+          <div id="mainOverlay" class="overlay menu">
+            <div class="menu-card">
+              <h2>NEON SNAKE</h2>
+              <p class="muted">Server-side game logic — play to beat the leaderboard.</p>
+              <div class="menu-controls">
+                <button id="btnStart" class="btn primary">Start Game</button>
+                <button id="btnHow" class="btn">How to Play</button>
+              </div>
+              <div class="small-note">Use arrows / WASD or on-screen buttons — swipe on mobile</div>
+            </div>
+          </div>
+
+          <div id="gameOverOverlay" class="overlay hidden">
+            <div class="menu-card">
+              <h2 id="gameOverTitle">Game Over</h2>
+              <div class="score-big">Score: <span id="finalScore">0</span></div>
+              <div class="menu-controls">
+                <button id="btnRestart" class="btn primary">Restart</button>
+                <button id="btnMenu" class="btn">Main Menu</button>
+              </div>
+              <div class="small-note">Your score will be recorded to leaderboard if it's high enough.</div>
+            </div>
+          </div>
+
+          <div id="scorePopup" class="score-popup hidden">+1</div>
+
+        </div>
+
+        <div class="controls-row">
+          <button id="up" class="btn-dir">↑</button>
+          <div>
+            <button id="left" class="btn-dir">←</button>
+            <button id="pause" class="btn small">Pause</button>
+            <button id="right" class="btn-dir">→</button>
+          </div>
+          <button id="down" class="btn-dir">↓</button>
+        </div>
+
+        <!-- mobile sticky controls -->
+        <div class="mobile-controls">
+          <button id="m-up" class="btn-dir">↑</button>
+          <div style="display:flex;gap:8px;justify-content:center">
+            <button id="m-left" class="btn-dir">←</button>
+            <button id="m-restart" class="btn small">Restart</button>
+            <button id="m-right" class="btn-dir">→</button>
+          </div>
+          <button id="m-down" class="btn-dir">↓</button>
+        </div>
+      </section>
+
+      <aside class="side-panel">
+        <div class="panel stat">
+          <div class="stat-row"><span class="label">Score</span><span id="score">0</span></div>
+          <div class="stat-row"><span class="label">High</span><span id="highscore">0</span></div>
+          <div class="stat-row"><span class="label">Status</span><span id="gameState">—</span></div>
+          <div class="stat-row"><span class="label">Grid</span><span id="gridSize">—</span></div>
+        </div>
+
+        <div class="panel">
+          <h3>Controls</h3>
+          <ul>
+            <li>Arrow keys or WASD to move</li>
+            <li>Swipe to move on touch</li>
+            <li>Pause to freeze, Restart to replay</li>
+          </ul>
+        </div>
+
+        <div class="panel small">
+          <h3>Tips</h3>
+          <ol>
+            <li>Keep the head pointed into free space.</li>
+            <li>Use walls (wrap-around) to reposition safely.</li>
+            <li>Small turns are safer at high speed.</li>
+          </ol>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <div>Made with ♥ • Python + Flask-SocketIO</div>
+      <div class="muted">V1 — Neon UI, particles, audio & leaderboard</div>
+    </footer>
+  </div>
+
+  <!-- Leaderboard Modal -->
+  <div id="leaderboardModal" class="modal hidden">
+    <div class="modal-card">
+      <h2>Leaderboard</h2>
+      <ol id="leaderboardList" class="leaderboard-list"></ol>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+        <button id="lbClose" class="btn">Close</button>
+        <button id="lbClear" class="btn">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="/static/game.js"></script>
+</body>
+</html>
